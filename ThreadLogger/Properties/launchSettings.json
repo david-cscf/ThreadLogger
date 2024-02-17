@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ThreadLogger": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
