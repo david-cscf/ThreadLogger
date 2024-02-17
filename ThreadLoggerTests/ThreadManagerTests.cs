@@ -7,6 +7,8 @@ namespace ThreadLoggerTests;
 
 public class ThreadManagerTests
 {
+    // Uses a mock for the FileWriter class so a file is not actually created and repeatedly written
+    // for testing. Especially important if live testing is enabled.
     [Fact]
     public void LogThreadData_Complete()
     {
@@ -22,6 +24,6 @@ public class ThreadManagerTests
 
         // Assert
         service.Verify(x => x.WriteLine(It.IsAny<string>()), Times.Exactly(100));
-
+        Assert.Equal(101, sut.CurrentLine); 
     }
 }

@@ -9,7 +9,7 @@ public class ThreadManager( IFileWriter writer, ILogger<ThreadManager> log) : IT
     private readonly IFileWriter _writer = writer;
     private readonly ILogger<ThreadManager> _log = log;
     private readonly object _writerLock = new();
-    private int _lineCount = 1;
+    public int CurrentLine { get; private set; } = 1;
     private Exception? _lastException;
     readonly CancellationTokenSource _cts = new();
 
@@ -51,11 +51,11 @@ public class ThreadManager( IFileWriter writer, ILogger<ThreadManager> log) : IT
                 lock (_writerLock)
                 {
                     var timeStamp = DateTime.Now.ToString("HH:mm:ss.ffff", CultureInfo.InvariantCulture);
-                    string output = $"{_lineCount}, {Environment.CurrentManagedThreadId}, {timeStamp}";
+                    string output = $"{CurrentLine}, {Environment.CurrentManagedThreadId}, {timeStamp}";
                     _writer.WriteLine(output);
                     _log.LogInformation("{LineCount}, {ThreadId}, {TimeStamp}",
-                        _lineCount, Environment.CurrentManagedThreadId, timeStamp);
-                    _lineCount++;
+                        CurrentLine, Environment.CurrentManagedThreadId, timeStamp);
+                    CurrentLine++;
                 }
             }
         }
